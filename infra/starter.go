@@ -14,6 +14,7 @@ func (s StarterContext) Props() kvs.ConfigSource {
 	if p == nil {
 		panic("配置还没被初始化")
 	}
+	//因为map中存储的是interface类型,所以将p 转换为kvs.ConfigSource
 	return p.(kvs.ConfigSource)
 }
 
@@ -58,10 +59,10 @@ func (s *starterRegister) AllStarters() []Starter {
 	return s.starters
 }
 
-var StartRegister *starterRegister = new(starterRegister)
+var StarterRegister *starterRegister = new(starterRegister)
 
 func Register(s Starter) {
-	StartRegister.Register(s)
+	StarterRegister.Register(s)
 }
 
 //系统基础资源的启动管理
@@ -69,17 +70,17 @@ func SysRun() {
 	//1.初始化
 	ctx := StarterContext{}
 
-	for _, stater := range StartRegister.AllStarters() {
-		stater.Init(ctx)
+	for _, starter := range StarterRegister.AllStarters() {
+		starter.Init(ctx)
 	}
 
 	//2.安装
-	for _, starter := range StartRegister.AllStarters() {
+	for _, starter := range StarterRegister.AllStarters() {
 		starter.Setup(ctx)
 	}
 
 	//3.启动
-	for _, starter := range starterRegister.AllStarters() {
+	for _, starter := range StarterRegister.AllStarters() {
 		starter.Start(ctx)
 	}
 

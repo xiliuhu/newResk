@@ -1,7 +1,23 @@
 package base
 
-import "go1234.cn/newResk/infra"
+import (
+	"github.com/tietang/props/kvs"
+	"go1234.cn/newResk/infra"
+)
 
-type PropsStart struct {
+var props kvs.ConfigSource
+
+//供外部调用
+func Props() kvs.ConfigSource {
+	return props
+}
+
+type PropsStarter struct {
 	infra.BaseStarter
+}
+
+func (p *PropsStarter) Init(ctx infra.StarterContext) {
+	//props = ini.NewIniFileConfigSource("config.ini")
+	props = ctx.Props()
+
 }
