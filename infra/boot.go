@@ -16,6 +16,9 @@ func New(conf kvs.ConfigSource) *BootaApplication {
 		conf:           conf,
 		starterContext: StarterContext{},
 	}
+
+	//
+	b.starterContext[KeyProps] = conf
 	return b
 }
 
