@@ -41,7 +41,7 @@ func (b *BootaApplication) init() {
 
 func (b *BootaApplication) setup() {
 	for _, starter := range StarterRegister.AllStarters() {
-		starter.Init(b.starterContext)
+		starter.Setup(b.starterContext)
 	}
 }
 func (b *BootaApplication) start() {

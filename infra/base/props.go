@@ -20,6 +20,6 @@ type PropsStarter struct {
 func (p *PropsStarter) Init(ctx infra.StarterContext) {
 
 	props = ctx.Props()
-	fmt.Println("初始化配置1")
+	fmt.Println("初始化配置")
 
 }

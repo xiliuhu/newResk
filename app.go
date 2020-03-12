@@ -6,5 +6,8 @@ import (
 )
 
 func init() {
+	//
 	infra.Register(&base.PropsStarter{})
+	//dbx
+	//infra.Register(&base.DbxStarter{})
 }
