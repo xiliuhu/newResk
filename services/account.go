@@ -3,10 +3,10 @@ package services
 import "time"
 
 type AccountService interface {
-	CreateAccount(dto AccountCreateDTO) (*CreateDTO, error) //创建账户接口
-	Transfer()                                              //转账接口
-	StoreValue()                                            //储值接口
-	GetEnvelopeAccountByUserId()                            //查询账户接口
+	CreateAccount(dto AccountCreateDTO) (*AccountDTO, error)     //创建账户接口
+	Transfer(dto AccountTransferDTO) (TransferedStatus, error)   //转账接口
+	StoreValue(dto AccountTransferDTO) (TransferedStatus, error) //储值接口
+	GetEnvelopeAccountByUserId(userId string) *AccountDTO        //查询账户接口
 }
 
 //CreateAccount 入参
@@ -20,7 +20,7 @@ type AccountCreateDTO struct {
 }
 
 //CreateAccount 出参
-type CreateDTO struct {
+type AccountDTO struct {
 	AccountCreateDTO
 	AccountNo string    //账户编号
 	CreateAt  time.Time //创建时间
@@ -33,8 +33,8 @@ type AccountTransferDTO struct {
 	TradeBody   TradePaticipator //交易的主体
 	TradeTarget TradePaticipator //交易的目标
 	AmountStr   string           //交易金额
-	ChangeType  int              //交易变化的类型
-	ChangeFlag  int              //交易变化的标识
+	ChangeType  ChangeType       //交易变化的类型
+	ChangeFlag  ChangeFlag       //交易变化的标识
 	Desc        string           //交易描述
 }
 
