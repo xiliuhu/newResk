@@ -27,10 +27,22 @@ type CreateDTO struct {
 }
 
 //Transfer接口的入参
-//交易的参与者
+//--转账的入参
+type AccountTransferDTO struct {
+	TradeNo     string           //交易的编号
+	TradeBody   TradePaticipator //交易的主体
+	TradeTarget TradePaticipator //交易的目标
+	AmountStr   string           //交易金额
+	ChangeType  int              //交易变化的类型
+	ChangeFlag  int              //交易变化的标识
+	Desc        string           //交易描述
+}
+
+//--交易的参与者
 type TradePaticipator struct {
 	AccountNo string //交易变化
 	UserId    string //交易的id
 	UserName  string //交易的名称
-
 }
+
+//StoreValue 入参
