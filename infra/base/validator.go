@@ -6,6 +6,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	vtzh "github.com/go-playground/validator/v10/translations/zh"
 	"github.com/sirupsen/logrus"
+	"go1234.cn/newResk/infra"
 )
 
 var validate *validator.Validate
@@ -19,7 +20,11 @@ func Translate() ut.Translator {
 	return translator
 }
 
-func Init() {
+type ValidatorStart struct {
+	infra.BaseStarter
+}
+
+func (v *ValidatorStart) Init(ctx infra.StarterContext) {
 	//创建validator对象
 	validate := validator.New()
 	//中文翻译器
