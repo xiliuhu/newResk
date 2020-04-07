@@ -1,6 +1,9 @@
 package services
 
-import "time"
+import (
+	"github.com/shopspring/decimal"
+	"time"
+)
 
 type AccountService interface {
 	CreateAccount(dto AccountCreateDTO) (*AccountDTO, error)     //创建账户接口
@@ -12,18 +15,22 @@ type AccountService interface {
 //CreateAccount 入参
 type AccountCreateDTO struct {
 	UserId       string //用户id
-	UserName     string //用户名称
+	Username     string //用户名称
 	AccountName  string //账户名称
-	AccountType  string //账户的类型
-	CurrencyCode string //
+	AccountType  int    //账户的类型
+	CurrencyCode string //货币类型编码：CNY人民币，EUR欧元，USD美元 。。。
 	Amount       string //金额 使用string，防止在传递的过程中丢失精度
 }
 
 //CreateAccount 出参
 type AccountDTO struct {
 	AccountCreateDTO
-	AccountNo string    //账户编号
-	CreateAt  time.Time //创建时间
+	AccountNo string          //账户编号
+	CreateAt  time.Time       //创建时间
+	Balance   decimal.Decimal //账户可用余额
+	Status    int             //账户状态，账户状态：0账户初始化，1启用，2停用
+	CreatedAt time.Time       //创建时间
+	UpdatedAt time.Time       //更新时间
 }
 
 //Transfer接口的入参
@@ -44,5 +51,3 @@ type TradePaticipator struct {
 	UserId    string //交易的id
 	UserName  string //交易的名称
 }
-
-//StoreValue 入参

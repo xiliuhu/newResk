@@ -32,9 +32,11 @@ require (
 	github.com/onsi/ginkgo v1.12.0 // indirect
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/ryanuber/columnize v2.1.0+incompatible // indirect
+	github.com/segmentio/ksuid v1.0.2
+	github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.4.2
-	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/smartystreets/goconvey v1.6.4
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tietang/dbx v1.0.1
 	github.com/tietang/go-utils v0.1.3 // indirect
