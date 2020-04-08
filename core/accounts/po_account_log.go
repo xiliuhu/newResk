@@ -24,3 +24,39 @@ type AccountLog struct {
 	Decs            string              `db:"desc"`                //交易描述
 	CreatedAt       time.Time           `db:"create_at,omitempty"` //创建时间
 }
+
+func (po *AccountLog) FromTransferDTO(dto *services.AccountTransferDTO) {
+	po.TradeNo = dto.TradeNo
+	po.AccountNo = dto.TradeBody.AccountNo
+	po.TargetAccountNo = dto.TradeTarget.AccountNo
+	po.UserId = dto.TradeBody.UserId
+	po.Username = dto.TradeBody.Username
+	po.TargetUserId = dto.TradeTarget.UserId
+	po.TargetUsername = dto.TradeTarget.Username
+	po.Amount = dto.Amount
+	po.ChangeType = dto.ChangeType
+	po.ChangeFlag = dto.ChangeFlag
+	po.Decs = dto.Desc
+}
+
+func (po *AccountLog) ToDTO() *services.AccountLogDTO {
+	dto := &services.AccountLogDTO{
+
+		TradeNo:         po.TradeNo,
+		LogNo:           po.LogNo,
+		AccountNo:       po.AccountNo,
+		TargetAccountNo: po.TargetAccountNo,
+		UserId:          po.UserId,
+		Username:        po.Username,
+		TargetUserId:    po.TargetUserId,
+		TargetUsername:  po.TargetUsername,
+		Amount:          po.Amount,
+		Balance:         po.Balance,
+		ChangeType:      po.ChangeType,
+		ChangeFlag:      po.ChangeFlag,
+		Status:          po.Status,
+		Decs:            po.Decs,
+		CreatedAt:       po.CreatedAt,
+	}
+	return dto
+}

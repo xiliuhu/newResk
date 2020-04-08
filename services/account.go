@@ -39,7 +39,7 @@ type AccountTransferDTO struct {
 	TradeNo     string           //交易的编号
 	TradeBody   TradePaticipator //交易的主体
 	TradeTarget TradePaticipator //交易的目标
-	AmountStr   string           //交易金额
+	Amount      decimal.Decimal  //交易金额
 	ChangeType  ChangeType       //交易变化的类型
 	ChangeFlag  ChangeFlag       //交易变化的标识
 	Desc        string           //交易描述
@@ -49,5 +49,24 @@ type AccountTransferDTO struct {
 type TradePaticipator struct {
 	AccountNo string //交易变化
 	UserId    string //交易的id
-	UserName  string //交易的名称
+	Username  string //交易的名称
+}
+
+//账户流水
+type AccountLogDTO struct {
+	LogNo           string          //流水编号 全局不重复字符或数字，唯一性标识
+	TradeNo         string          //交易单号 全局不重复字符或数字，唯一性标识
+	AccountNo       string          //账户编号 账户ID
+	TargetAccountNo string          //账户编号 账户ID
+	UserId          string          //用户编号
+	Username        string          //用户名称
+	TargetUserId    string          //目标用户编号
+	TargetUsername  string          //目标用户名称
+	Amount          decimal.Decimal //交易金额,该交易涉及的金额
+	Balance         decimal.Decimal //交易后余额,该交易后的余额
+	ChangeType      ChangeType      //流水交易类型，0 创建账户，>0 为收入类型，<0 为支出类型，自定义
+	ChangeFlag      ChangeFlag      //交易变化标识：-1 出账 1为进账，枚举
+	Status          int             //交易状态：
+	Decs            string          //交易描述
+	CreatedAt       time.Time       //创建时间
 }

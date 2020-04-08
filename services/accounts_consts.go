@@ -36,3 +36,11 @@ const (
 	FlagTransferOut    ChangeFlag = 1
 	FlagTransferIn     ChangeFlag = -1
 )
+
+//账户类型
+type AccountType int8
+
+const (
+	EnvelopeAccountType      AccountType = 1
+	SysteEnvelopeAccountType AccountType = 2
+)
