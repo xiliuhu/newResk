@@ -2,8 +2,18 @@ package services
 
 import (
 	"github.com/shopspring/decimal"
+	"go1234.cn/newResk/infra/base"
 	"time"
 )
+
+var InterfaceAccountService AccountService
+
+//用于对外暴露账户应用服务的唯一暴露点
+func GetAccountService() AccountService {
+	//检查传入的变量是否为nil,避免因为没有初始化造成的错误
+	base.Check(InterfaceAccountService)
+	return InterfaceAccountService
+}
 
 type AccountService interface {
 	CreateAccount(dto AccountCreateDTO) (*AccountDTO, error)     //创建账户接口
@@ -42,10 +52,11 @@ type AccountTransferDTO struct {
 	TradeNo     string           //交易的编号
 	TradeBody   TradePaticipator //交易的主体
 	TradeTarget TradePaticipator //交易的目标
-	Amount      decimal.Decimal  //交易金额
-	ChangeType  ChangeType       //交易变化的类型
-	ChangeFlag  ChangeFlag       //交易变化的标识
-	Desc        string           //交易描述
+	AmountStr   string
+	Amount      decimal.Decimal //交易金额
+	ChangeType  ChangeType      //交易变化的类型
+	ChangeFlag  ChangeFlag      //交易变化的标识
+	Desc        string          //交易描述
 }
 
 //--交易的参与者

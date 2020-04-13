@@ -12,6 +12,7 @@ func init() {
 	formatter.FullTimestamp = true
 	formatter.TimestampFormat = "2006-01-02.15:04:05.000000"
 	formatter.ForceFormatting = true
+
 	//根据级别设置颜色
 	formatter.SetColorScheme(&prefixed.ColorScheme{
 		InfoLevelStyle:  "green",
@@ -23,7 +24,9 @@ func init() {
 		PrefixStyle:     "",
 		TimestampStyle:  "38",
 	})
+
 	log.SetFormatter(formatter)
+
 	//日志的级别-默认为info
 	level := os.Getenv("log.debug")
 	if level == "true" {

@@ -1,16 +1,26 @@
 package accounts
 
 import (
+	"errors"
 	"github.com/go-playground/validator/v10"
 	"github.com/shopspring/decimal"
 	"github.com/sirupsen/logrus"
 	"go1234.cn/newResk/infra/base"
 	"go1234.cn/newResk/services"
-	"time"
+	"sync"
 )
 
 //应用服务层
 var _ services.AccountService = new(accountService)
+
+//避免重复实例化
+var once sync.Once
+
+func init() {
+	once.Do(func() {
+		services.InterfaceAccountService = new(accountService)
+	})
+}
 
 type accountService struct {
 }
@@ -24,7 +34,7 @@ func (a *accountService) CreateAccount(dto services.AccountCreateDTO) (*services
 		if ok {
 			logrus.Error("验证错误", err)
 		}
-		errs, ok := err.(*validator.ValidationErrors)
+		errs, ok := err.(validator.ValidationErrors)
 		if ok {
 			for _, value := range errs {
 				logrus.Error(value.Translate(base.Translate()))
@@ -47,14 +57,69 @@ func (a *accountService) CreateAccount(dto services.AccountCreateDTO) (*services
 	return accountDto, err
 }
 
+//转账接口
 func (a *accountService) Transfer(dto services.AccountTransferDTO) (services.TransferedStatus, error) {
-	panic("implement me")
+	//验证参数
+	domain := accountDomain{}
+	//验证输入参数
+	err := base.Validate().Struct(&dto)
+	if err != nil {
+		//如果是无效的验证
+		_, ok := err.(*validator.InvalidValidationError)
+		if ok {
+			logrus.Error("验证错误", err)
+		}
+		//如果是验证错误
+		errs, ok := err.(validator.ValidationErrors)
+		if ok {
+			for _, v := range errs {
+				logrus.Error(v.Translate(base.Translate()))
+			}
+		}
+		return services.TransferedStatusFailure, err
+	}
+
+	//转换数据
+	amount, err := decimal.NewFromString(dto.AmountStr)
+	if err != nil {
+		return services.TransferedStatusFailure, err
+	}
+	//转换成功
+	dto.Amount = amount
+	//验证change_flag
+	if dto.ChangeFlag == services.FlagTransferOut {
+		if dto.ChangeType > 0 {
+			return services.TransferedStatusFailure, errors.New("如果changeFlag为支出，那么changeType必须小于0")
+		}
+	} else {
+		//changeFlag为输入
+		if dto.ChangeType < 0 {
+			return services.TransferedStatusFailure, errors.New("如果changeFlag为输入，那么changeType必须大于0")
+		}
+	}
+	//完成验证，执行转账
+	status, err := domain.Transfer(dto)
+	return status, err
 }
+
+//储值接口
 
 func (a *accountService) StoreValue(dto services.AccountTransferDTO) (services.TransferedStatus, error) {
-	panic("implement me")
+	dto.TradeTarget = dto.TradeBody
+	dto.ChangeFlag = services.FlagTransferIn //储值
+	dto.ChangeType = services.AccountStoreValue
+	return a.Transfer(dto)
 }
 
+//查询红包账户接口
 func (a *accountService) GetEnvelopeAccountByUserId(userId string) *services.AccountDTO {
-	panic("implement me")
+	domain := accountDomain{}
+	account := domain.GetEnvelopeAccountByUserId(userId)
+	return account
+}
+
+//查询账户信息
+func (a *accountService) GetAccount(accountNo string) *services.AccountDTO {
+	domain := accountDomain{}
+	return domain.GetAccount(accountNo)
 }

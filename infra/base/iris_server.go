@@ -11,6 +11,7 @@ import (
 
 var irisApplication *iris.Application
 
+//创建iris实例
 func Iris() *iris.Application {
 	return irisApplication
 }
