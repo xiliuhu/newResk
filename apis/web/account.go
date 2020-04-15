@@ -86,5 +86,38 @@ func transferHandler(ctx iris.Context) {
 }
 
 //查询红包账户的接口: /v1/account/envelope/get
+func getEnvelopeAccountHandler(ctx iris.Context) {
+	userId := ctx.URLParam("userId")
+	r := base.Res{
+		Code: base.ResCodeOk,
+	}
+	if userId == "" {
+		r.Code = base.ResCodeRequestParamsError
+		r.Message = "用户ID不能为空"
+		ctx.JSON(&r)
+		return
+	}
+	service := services.GetAccountService()
+	account := service.GetEnvelopeAccountByUserId(userId)
+	r.Data = account
+	return
+}
 
 //查询账户信息的接口: /v1/account/get
+func getAccountHandler(ctx iris.Context) {
+	accountNo := ctx.URLParam("accountNo")
+	r := base.Res{
+		Code: base.ResCodeOk,
+	}
+
+	if accountNo == "" {
+		r.Code = base.ResCodeRequestParamsError
+		r.Message = "账户编号不能为空"
+		ctx.JSON(&r)
+		return
+	}
+	service := services.GetAccountService()
+	account := service.GetAccount(accountNo)
+	r.Data = account
+	return
+}

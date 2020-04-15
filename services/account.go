@@ -20,6 +20,7 @@ type AccountService interface {
 	Transfer(dto AccountTransferDTO) (TransferedStatus, error)   //转账接口
 	StoreValue(dto AccountTransferDTO) (TransferedStatus, error) //储值接口
 	GetEnvelopeAccountByUserId(userId string) *AccountDTO        //查询账户接口
+	GetAccount(accountNo string) *AccountDTO                     //查询账户信息
 }
 
 //CreateAccount 入参
