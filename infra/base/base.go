@@ -12,7 +12,7 @@ import (
 func Check(a interface{}) {
 	if a == nil {
 		_, file, l, _ := runtime.Caller(1)
-		strs := strings.Split(f, "/")
+		strs := strings.Split(file, "/")
 		size := len(strs)
 		if size > 4 {
 			size = 4

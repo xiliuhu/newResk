@@ -1,8 +1,10 @@
 package envelopes
 
 import (
+	"context"
 	"github.com/segmentio/ksuid"
 	"github.com/shopspring/decimal"
+	log "github.com/sirupsen/logrus"
 	"github.com/tietang/dbx"
 	"go1234.cn/newResk/infra/base"
 	"go1234.cn/newResk/services"
@@ -11,6 +13,7 @@ import (
 
 type goodsDomain struct {
 	RedEnvelopeGoods
+	item itemDomain
 }
 
 //1、生成一个红包编号
@@ -43,8 +46,8 @@ func (g *goodsDomain) Create(goods services.RedEnvelopeGoodsDTO) {
 }
 
 //保存到红包商品表
-func (g *goodsDomain) Save(goods services.RedEnvelopeGoodsDTO) (id int64, err error) {
-	err = base.TX(func(runner *dbx.TxRunner) error {
+func (g *goodsDomain) Save(ctx context.Context) (id int64, err error) {
+	err = base.ExecuteContext(ctx, func(runner *dbx.TxRunner) error {
 		dao := RedEnvelopeGoodsDao{runner: runner}
 		id, err = dao.Insert(&g.RedEnvelopeGoods)
 		return err
@@ -53,10 +56,24 @@ func (g *goodsDomain) Save(goods services.RedEnvelopeGoodsDTO) (id int64, err er
 }
 
 //创建并保存红包商品
-func (g *goodsDomain) CreateAndSave(goods services.RedEnvelopeGoodsDTO) (id int64, err error) {
+func (g *goodsDomain) CreateAndSave(ctx context.Context, goods services.RedEnvelopeGoodsDTO) (id int64, err error) {
 	//创建红包商品
 	g.Create(goods)
 	//保存红包商品
-	g.Save(goods)
+	return g.Save(ctx)
 
+}
+
+//查询红包信息
+func (g *goodsDomain) Get(envelopeNum string) (goods *RedEnvelopeGoods) {
+	err := base.Tx(func(runner *dbx.TxRunner) error {
+		dao := RedEnvelopeGoodsDao{runner: runner}
+		goods = dao.GetOne(envelopeNum)
+		return nil
+	})
+	if err != nil {
+		log.Error(err)
+	}
+
+	return goods
 }

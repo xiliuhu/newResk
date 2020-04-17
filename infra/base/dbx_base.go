@@ -31,11 +31,6 @@ func TxContext(ctx context.Context, fn func(runner *dbx.TxRunner) error) error {
 	return DbxDatabase().Tx(fn)
 }
 
-//将runner绑定到上下文，并创建一个新的WithValueContext
-func WithValueContext(parent context.Context, runner *dbx.TxRunner) context.Context {
-	return context.WithValue(parent, TX, runner)
-}
-
 //在事务上下文中执行事务逻辑
 //传入绑定了runner的上下文，并执行事务函数代码
 //函数只能用在绑定了runner的事务上下文中，也就是说用在事务函数内部，和WithValueContext配合一起来完成。
@@ -72,6 +67,13 @@ func TxStepZ(ctx context.Context) error {
 
 }
 */
+
+//将runner绑定到上下文，并创建一个新的WithValueContext
+func WithValueContext(parent context.Context, runner *dbx.TxRunner) context.Context {
+	return context.WithValue(parent, TX, runner)
+}
+
+//通过上下文传递runner事务，使多个方法在同一个事务里执行
 func ExecuteContext(ctx context.Context, fn func(*dbx.TxRunner) error) error {
 	tx, ok := ctx.Value(TX).(*dbx.TxRunner)
 	if !ok || tx == nil {

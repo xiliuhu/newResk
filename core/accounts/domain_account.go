@@ -1,6 +1,7 @@
 package accounts
 
 import (
+	"context"
 	"errors"
 	"github.com/segmentio/ksuid"
 	"github.com/shopspring/decimal"
@@ -15,6 +16,10 @@ import (
 type accountDomain struct {
 	account    Account
 	accountLog AccountLog
+}
+
+func NewAccountDomain() *accountDomain {
+	return new(accountDomain)
 }
 
 //创建流水记录
@@ -100,6 +105,16 @@ func (domain *accountDomain) createAccountNo() {
 
 //转账业务
 func (a *accountDomain) Transfer(dto services.AccountTransferDTO) (status services.TransferedStatus, err error) {
+	base.Tx(func(runner *dbx.TxRunner) error {
+		//把事务绑定到上下文对象汇总
+		ctx := base.WithValueContext(context.Background(), runner)
+		status, err := a.TransferWithContext(ctx, dto)
+		return err
+	})
+}
+
+//必须在base.Tx事务块里运行，不能单独运行，因为此方法中没有单独的事务
+func (a *accountDomain) TransferWithContext(ctx context.Context, dto services.AccountTransferDTO) (status services.TransferedStatus, err error) {
 	//如果交易变化是支出，则amount是负数
 	amount := dto.Amount
 	if dto.ChangeFlag == services.FlagTransferOut {
@@ -109,7 +124,9 @@ func (a *accountDomain) Transfer(dto services.AccountTransferDTO) (status servic
 	a.accountLog = AccountLog{}
 	a.accountLog.FromTransferDTO(&dto)
 	//检查余额是否足够，更新余额
-	err = base.Tx(func(runner *dbx.TxRunner) error {
+	//在上下文中传递runner，使多个方法在一个事务中执行
+	//ExecuteContext并没有开启事务，事务是从上下文context传递过来的
+	err = base.ExecuteContext(ctx, func(runner *dbx.TxRunner) error {
 		accountDao := AccountDao{runner: runner}
 		accountLogDao := AccountLogDao{runner: runner}
 		//更新余额时，检查余额

@@ -44,8 +44,8 @@ const (
 type EnvelopeType int
 
 const (
-	GeneralEnvelope EnvelopeType = 1
-	LuckyEnvelope   EnvelopeType = 2
+	GeneralEnvelope = 1
+	LuckyEnvelope   = 2
 )
 
 var EnvelopeTypes = map[EnvelopeType]string{

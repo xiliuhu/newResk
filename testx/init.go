@@ -14,7 +14,6 @@ func init() {
 	conf := ini.NewIniFileCompositeConfigSource(file)
 	//base.InitLog(conf)
 
-	//
 	infra.Register(&base.PropsStarter{})
 	infra.Register(&base.DbxStarter{})
 	infra.Register(&base.ValidatorStart{})

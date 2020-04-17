@@ -57,3 +57,25 @@ func (v *ValidatorStart) Init(ctx infra.StarterContext) {
 			}
 		}*/
 }
+
+//通用验证
+func ValidateStructs(s interface{}) (err error) {
+	err = Validate().Struct(s)
+	if err != nil {
+		//无效的验证
+		_, ok := err.(*validator.InvalidValidationError)
+		if ok {
+			logrus.Error("验证错误", err)
+		}
+		//验证出错
+		errs, ok := err.(validator.ValidationErrors)
+		if ok {
+			for _, e := range errs {
+				//转换错误信息的格式
+				logrus.Error(e.Translate(Translate()))
+			}
+		}
+		return err
+	}
+	return nil
+}

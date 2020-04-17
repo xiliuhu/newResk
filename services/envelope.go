@@ -32,7 +32,7 @@ type RedEnvelopeService interface {
 
 //发送红包
 type RedEnvelopeSendDTO struct {
-	EnvelopeType int             `json:"envelope_type" validate:"required"`    //红包类型：普通红包，碰运气红包
+	EnvelopeType EnvelopeType    `json:"envelope_type" validate:"required"`    //红包类型：普通红包，碰运气红包
 	Username     string          `json:"user_name",validate:"required"'`       //用户名称
 	UserId       string          `json:"user_id" validate:"required"`          //发送红包的用户ID
 	Blessing     string          `json:"blessing"`                             //祝福语
@@ -89,7 +89,7 @@ type RedEnvelopeReceiveDTO struct {
 //红包
 type RedEnvelopeGoodsDTO struct {
 	EnvelopeNum       string          `json:"envelope_no"`                            //红包编号，红包唯一标识
-	EnvelopeType      int             `json:"envelope_type",validate:"required"`      //红包类型：普通红包、碰运气红包
+	EnvelopeType      EnvelopeType    `json:"envelope_type",validate:"required"`      //红包类型：普通红包、碰运气红包
 	Username          string          `json:"username",validate:"required"`           //用户名称
 	UserId            string          `json:"user_id",validate:"required"`            //用户ID
 	Blessing          string          `json:"blessing"`                               //祝福语
@@ -104,7 +104,7 @@ type RedEnvelopeGoodsDTO struct {
 	PayStatus         PayStatus       `json:"pay_status"`                             //支付状态：未支付、支付中、已支付、支付失败
 	CreatedAt         time.Time       `json:"created_at"`                             //创建时间
 	UpdatedAt         time.Time       `json:"update_at"`                              //更新时间
-	AccountNum        string          `json:"account_no"`
+	AccountNum        string          `json:"account_no"`                             //账户编号
 	OriginEnvelopeNum string          `json:"origin_envelope_no"`
 }
 
