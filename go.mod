@@ -14,6 +14,7 @@ require (
 	github.com/go-playground/locales v0.13.0
 	github.com/go-playground/universal-translator v0.17.0
 	github.com/go-playground/validator/v10 v10.2.0
+	github.com/go-redsync/redsync v1.4.2 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/iris-contrib/blackfriday v2.0.0+incompatible // indirect
@@ -37,7 +38,6 @@ require (
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/goconvey v1.6.4
-	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/tietang/dbx v1.0.1
 	github.com/tietang/go-utils v0.1.3 // indirect
 	github.com/tietang/props v2.2.0+incompatible

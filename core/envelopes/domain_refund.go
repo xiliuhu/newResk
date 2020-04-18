@@ -12,6 +12,7 @@ import (
 
 const pageSize = 100
 
+//红包过期
 type ExpiredEnvelopeDomain struct {
 	ExpiredGoods []RedEnvelopeGoods
 	offset       int
