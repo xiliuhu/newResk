@@ -6,8 +6,8 @@ import (
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/go-utils"
+	"github.com/ztaoing/infra"
 	"go1234.cn/newResk/core/envelopes"
-	"go1234.cn/newResk/infra"
 	"time"
 )
 

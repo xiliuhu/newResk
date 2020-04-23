@@ -1,13 +1,13 @@
 package newResk
 
 import (
+	_ "github.com/ztaoing/account/core/accounts"
+	"github.com/ztaoing/infra"
+	"github.com/ztaoing/infra/base"
 	"go1234.cn/newResk/apis/gorpc"
 	_ "go1234.cn/newResk/apis/gorpc"
 	_ "go1234.cn/newResk/apis/web"
-	_ "go1234.cn/newResk/core/accounts"
 	_ "go1234.cn/newResk/core/envelopes"
-	"go1234.cn/newResk/infra"
-	"go1234.cn/newResk/infra/base"
 	"go1234.cn/newResk/jobs"
 )
 
@@ -21,4 +21,6 @@ func init() {
 	infra.Register(&jobs.RefundExpiredStarter{})
 	infra.Register(&base.IrisSveverStarter{})
 	infra.Register(&infra.WebApiStart{})
+	infra.Register(&base.EurekaStarter{})
+	//infra.Register(&base.HookStarter{})
 }

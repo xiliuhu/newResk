@@ -1,8 +1,8 @@
 package gorpc
 
 import (
-	"go1234.cn/newResk/infra"
-	"go1234.cn/newResk/infra/base"
+	"github.com/ztaoing/infra"
+	"github.com/ztaoing/infra/base"
 )
 
 type GoRPCApiStarter struct {

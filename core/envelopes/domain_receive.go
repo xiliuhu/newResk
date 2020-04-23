@@ -7,9 +7,10 @@ import (
 	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/dbx"
-	"go1234.cn/newResk/core/accounts"
-	"go1234.cn/newResk/infra/algo"
-	"go1234.cn/newResk/infra/base"
+	"github.com/ztaoing/account/core/accounts"
+	acservices "github.com/ztaoing/account/services"
+	"github.com/ztaoing/infra/algo"
+	"github.com/ztaoing/infra/base"
 	"go1234.cn/newResk/services"
 )
 
@@ -53,7 +54,7 @@ func (g *goodsDomain) Receive(ctx context.Context, dto services.RedEnvelopeRecei
 		}
 		//将抢到的红包从系统红包中间账户转入，抢到红包的用户
 		status, err := g.transfer(txCTX, dto)
-		if status == services.TransferedStatusSuccess {
+		if status == acservices.TransferedStatusSuccess {
 			return nil
 		}
 		//转账失败
@@ -98,25 +99,25 @@ func (g *goodsDomain) nextAmount(goods *RedEnvelopeGoods) (amount decimal.Decima
 }
 
 //由系统中间账户 转入到 用户账户
-func (g *goodsDomain) transfer(ctx context.Context, dto services.RedEnvelopeReceiveDTO) (status services.TransferedStatus, err error) {
+func (g *goodsDomain) transfer(ctx context.Context, dto services.RedEnvelopeReceiveDTO) (status acservices.TransferedStatus, err error) {
 	systemAccount := base.GetSystemAccount()
-	body := services.TradePaticipator{
+	body := acservices.TradePaticipator{
 		AccountNum: systemAccount.AccountNum,
 		UserId:     systemAccount.UserId,
 		Username:   systemAccount.AccountName,
 	}
-	target := services.TradePaticipator{
+	target := acservices.TradePaticipator{
 		AccountNum: dto.AccountNum,
 		UserId:     dto.RecvUserId,
 		Username:   dto.RecvUsername,
 	}
-	transfer := services.AccountTransferDTO{
+	transfer := acservices.AccountTransferDTO{
 		TradeNum:    dto.EnvelopeNum,
 		TradeBody:   body,
 		TradeTarget: target,
 		Amount:      g.item.Amount,
-		ChangeType:  services.EnvelopeInComing,
-		ChangeFlag:  services.FlagTransferIn,
+		ChangeType:  acservices.EnvelopeInComing,
+		ChangeFlag:  acservices.FlagTransferIn,
 		Desc:        "红包转入",
 	}
 	domain := accounts.NewAccountDomain()

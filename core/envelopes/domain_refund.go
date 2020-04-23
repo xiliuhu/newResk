@@ -6,7 +6,8 @@ import (
 	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/dbx"
-	"go1234.cn/newResk/infra/base"
+	acservices "github.com/ztaoing/account/services"
+	"github.com/ztaoing/infra/base"
 	"go1234.cn/newResk/services"
 )
 
@@ -89,35 +90,35 @@ func (e *ExpiredEnvelopeDomain) ExpiredOne(goods RedEnvelopeGoods) (err error) {
 	//调用资金账户接口转账，将剩余金额退回给用户
 	systemAccount := base.GetSystemAccount()
 	//红包所有者的账户信息
-	account := services.GetAccountService().GetEnvelopeAccountByUserId(goods.UserId)
+	account := acservices.GetAccountService().GetEnvelopeAccountByUserId(goods.UserId)
 	if account == nil {
 		return errors.New("没有找到此红包所有者的资金账户:" + goods.UserId)
 	}
 	//交易主体
-	body := services.TradePaticipator{
+	body := acservices.TradePaticipator{
 		AccountNum: systemAccount.AccountNum,
 		UserId:     systemAccount.UserId,
 		Username:   systemAccount.Username,
 	}
 	//交易对象
-	target := services.TradePaticipator{
+	target := acservices.TradePaticipator{
 		AccountNum: account.AccountNum,
 		UserId:     account.UserId,
 		Username:   account.Username,
 	}
 	//创建转账的DTO
-	transfer := services.AccountTransferDTO{
+	transfer := acservices.AccountTransferDTO{
 		TradeNum:    refund.EnvelopeNum,
 		TradeBody:   body,
 		TradeTarget: target,
 		Amount:      goods.RemainAmount,
-		ChangeType:  services.EnvelopeExpiredRefund,
-		ChangeFlag:  services.FlagTransferIn,
+		ChangeType:  acservices.EnvelopeExpiredRefund,
+		ChangeFlag:  acservices.FlagTransferIn,
 		Desc:        "红包过期退款:" + goods.EnvelopeNum,
 	}
 	//执行转账
-	status, err := services.GetAccountService().Transfer(transfer)
-	if status != services.TransferedStatusSuccess {
+	status, err := acservices.GetAccountService().Transfer(transfer)
+	if status != acservices.TransferedStatusSuccess {
 		return err
 	}
 

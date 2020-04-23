@@ -3,8 +3,8 @@ package public
 import (
 	"github.com/kataras/iris"
 	"github.com/prometheus/common/log"
-	"go1234.cn/newResk/infra"
-	"go1234.cn/newResk/infra/base"
+	"github.com/ztaoing/infra"
+	"github.com/ztaoing/infra/base"
 	"path/filepath"
 	"runtime"
 	"strings"

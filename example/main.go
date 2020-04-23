@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/tietang/props/ini"
 	"github.com/tietang/props/kvs"
+	"github.com/ztaoing/infra"
 	_ "go1234.cn/newResk"
-	"go1234.cn/newResk/infra"
 )
 
 func main() {

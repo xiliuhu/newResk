@@ -6,7 +6,7 @@ import (
 	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/dbx"
-	"go1234.cn/newResk/infra/base"
+	"github.com/ztaoing/infra/base"
 	"go1234.cn/newResk/services"
 	"time"
 )

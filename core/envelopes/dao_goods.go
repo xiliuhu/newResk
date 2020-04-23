@@ -23,7 +23,7 @@ func (dao *RedEnvelopeGoodsDao) Insert(po *RedEnvelopeGoods) (int64, error) {
 
 //查询，根据红包编号查询红包
 func (dao *RedEnvelopeGoodsDao) GetOne(envelopeNo string) *RedEnvelopeGoods {
-	po := &RedEnvelopeGoods{EnvelopeNo: envelopeNo}
+	po := &RedEnvelopeGoods{EnvelopeNum: envelopeNo}
 	ok, err := dao.runner.GetOne(po)
 	if err != nil || !ok {
 		logrus.Error(err)
