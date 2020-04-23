@@ -4,7 +4,7 @@ import (
 	"github.com/tietang/props/ini"
 	"github.com/tietang/props/kvs"
 	"github.com/ztaoing/infra"
-	_ "go1234.cn/newResk"
+	_ "github.com/ztaoing/newResk"
 )
 
 func main() {

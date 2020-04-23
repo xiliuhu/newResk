@@ -5,7 +5,7 @@ import (
 	"github.com/segmentio/ksuid"
 	"github.com/tietang/dbx"
 	"github.com/ztaoing/infra/base"
-	"go1234.cn/newResk/services"
+	"github.com/ztaoing/newResk/services"
 )
 
 //抢红包的业务领域层

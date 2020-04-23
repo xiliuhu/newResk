@@ -5,7 +5,7 @@ import (
 	"github.com/tietang/dbx"
 	"github.com/ztaoing/account/core/accounts"
 	"github.com/ztaoing/infra/base"
-	"go1234.cn/newResk/services"
+	"github.com/ztaoing/newResk/services"
 	"path"
 )
 

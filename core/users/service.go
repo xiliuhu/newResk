@@ -4,7 +4,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/dbx"
 	"github.com/ztaoing/infra/base"
-	"go1234.cn/newResk/services"
+	"github.com/ztaoing/newResk/services"
 	"strconv"
 )
 
