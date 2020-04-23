@@ -1,7 +1,7 @@
 package gorpc
 
 import (
-	"go1234.cn/newResk/services"
+	"github.com/ztaoing/newResk/services"
 )
 
 //用rpc实现法红包

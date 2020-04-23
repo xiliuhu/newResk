@@ -4,11 +4,11 @@ import (
 	_ "github.com/ztaoing/account/core/accounts"
 	"github.com/ztaoing/infra"
 	"github.com/ztaoing/infra/base"
-	"go1234.cn/newResk/apis/gorpc"
-	_ "go1234.cn/newResk/apis/gorpc"
-	_ "go1234.cn/newResk/apis/web"
-	_ "go1234.cn/newResk/core/envelopes"
-	"go1234.cn/newResk/jobs"
+	"github.com/ztaoing/newResk/apis/gorpc"
+	_ "github.com/ztaoing/newResk/apis/gorpc"
+	_ "github.com/ztaoing/newResk/apis/web"
+	_ "github.com/ztaoing/newResk/core/envelopes"
+	"github.com/ztaoing/newResk/jobs"
 )
 
 func init() {
